@@ -23,12 +23,12 @@ jobs:
 #            api: 28
 #            tag: 'default'
     steps:
-      - uses: actions/checkout@v4
-      - name: set up JDK
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v3
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
-          java-version: 17
+          java-version: 11
       - uses: gradle/wrapper-validation-action@v2
       - name: Install Android SDK
         uses: hannesa2/action-android/install-sdk@0.1.4.10
@@ -43,7 +43,7 @@ jobs:
           abi: ${{ matrix.abi }}
           cmdOptions: -noaudio -no-boot-anim -no-window
           bootTimeout: 720
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: MQ-Espresso-${{ matrix.api }}-${{ matrix.abi }}-report
@@ -51,7 +51,7 @@ jobs:
             ./**/build/reports/androidTests/connected
             ./**/build/outputs/androidTest-results/connected
       - name: Archive screenshots
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: MQ-Screenshots-${{ matrix.api }}-${{ matrix.abi }}
@@ -67,12 +67,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - name: set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'adopt'
-          java-version: 17
+        uses: actions/checkout@v3
       - name: Install Android SDK
         uses: hannesa2/action-android/install-sdk@0.1.4.10
       - name: Kotlin code checks
@@ -80,7 +75,7 @@ jobs:
       - name: Code checks
         run: ./gradlew check
       - name: Archive Lint report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: MQTT-Lint-report
